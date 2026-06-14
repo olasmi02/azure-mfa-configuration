@@ -74,6 +74,29 @@ SMS sends a temporary 6-digit passcode to the user's registered cellular phone n
 *   **Ubiquity**: Requires no application installs or special hardware; works on any mobile phone globally.
 *   **Fallback Justification**: Despite security flaws, SMS is enabled solely as a secondary fallback method to prevent lockouts during device transitions or travel where internet connectivity is limited.
 
+## 🔑 5. Backup Codes (Recovery Codes) & Recovery Mechanisms
+
+To ensure operational resilience and prevent permanent account lockouts when a user loses their primary authentication device (e.g., cell phone or physical security key), a robust recovery mechanism must be designed, documented, and secured.
+
+### 5.1 Microsoft Authenticator Cloud Backup
+For standard users, Microsoft Authenticator supports cloud backup of account credentials, allowing them to restore their MFA accounts on a new device without administrative intervention.
+*   **How it Works**: The app encrypts the accounts and backs them up to iCloud (iOS) or Google Drive (Android) using the user's personal Microsoft Account (MSA) or Apple ID.
+*   **Security Best Practice**: The backup is encrypted using a recovery passphrase that the user must generate. Users must write down this recovery passphrase and store it in a secure password vault or physical safe. Without this passphrase, the backup cannot be decrypted.
+
+### 5.2 Personal Microsoft Account (MSA) Recovery Codes
+For personal Microsoft accounts, Microsoft allows the generation of a unique 25-character **Recovery Code** (e.g., `XXXXX-XXXXX-XXXXX-XXXXX-XXXXX`).
+*   **Process**: Generated via Security settings -> Advanced security options.
+*   **Usage**: Can bypass all other MFA prompts and passwords. It is a one-time use code that must be regenerated immediately after use.
+*   **Secure Storage Policy**: Because this code provides absolute control over the account, it must **never** be stored in plain text on cloud drives (OneDrive, Google Drive), email drafts, or local computer text files. It must be stored in:
+    1.  An encrypted password manager (e.g., Bitwarden, 1Password) with Master MFA enabled.
+    2.  An offline physical copy printed or written and placed in a secure, fireproof safe.
+
+### 5.3 Enterprise Recovery: Temporary Access Pass (TAP)
+In an enterprise Microsoft Entra ID tenant (like `olamc.onmicrosoft.com`), self-service "personal recovery codes" are generally disabled for security. Instead, account recovery is managed through **Temporary Access Passes (TAPs)**.
+*   **Process**: An administrator navigates to the user's authentication methods and generates a TAP.
+*   **Configuration**: The admin sets a specific start time, duration (e.g., 1 hour), and specifies whether it is one-time use.
+*   **Usage**: The user signs in using the TAP, bypassing standard MFA. This allows them to securely access `mysignins.microsoft.com/security-info` to register their new phone or Authenticator app.
+
 ---
 
 ## 🎯 Architectural Justification

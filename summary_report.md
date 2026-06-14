@@ -56,7 +56,7 @@ Rather than relying on legacy per-user MFA (which is static and disruptive), we 
 
 ---
 
-## 📝 Step 5: Testing User Onboarding & Enrollment
+## 📝 Step 5: Testing User Onboarding & Multiple Methods Enrollment
 1.  Open an Incognito browser session and navigate to the security registration page (`https://mysignins.microsoft.com/security-info`).
 2.  Log in as `testusermfa@olamc.onmicrosoft.com` using the temporary password.
 3.  The portal prompts the user with: **"More information required. Your organization needs more information to keep your account secure."**
@@ -64,17 +64,36 @@ Rather than relying on legacy per-user MFA (which is static and disruptive), we 
     *   Select **Microsoft Authenticator** as the primary method.
     *   Install the **Microsoft Authenticator app** on a mobile device (in this setup, an **iPhone 12 Pro**).
     *   Scan the provided QR code using the mobile device camera.
-5.  To verify the integration, the browser shows a verification screen titled **"Let's try it out"**, displaying a verification code (e.g., **64**).
-6.  A push notification arrives on the user's **iPhone 12 Pro**. Entering **64** in the mobile app registers the method.
-7.  The registered factors are successfully saved under the user's **Security info** dashboard.
+    *   Verify the app setup by completing the push notification number-matching challenge (code **64**).
+5.  After registering the Authenticator App, the wizard prompts the user to add secondary methods to prevent account lockouts:
+    *   **Phone Method**: Input the cell phone number (e.g., `+1 555-0199`) and select **SMS**. Entra ID sends a verification code via text message. Typing the code registers the phone factor.
+    *   **Email Method**: Under the security info dashboard, select **Add sign-in method** > **Email**. Input the personal recovery email (`testusermfa@gmail.com`). Entra ID sends a 6-digit code via email. Entering this code registers the email factor.
+6.  The **Security info** dashboard (`mysignins.microsoft.com/security-info`) now displays all three factors registered simultaneously for the user `testusermfa@olamc.onmicrosoft.com`, confirming a high-availability fallback architecture. *(See `screenshots/user_security_info_all.png`)*.
 
 ---
 
-## 🧪 Step 6: Verifying the MFA Login Flow
-To verify the policy triggers correctly:
+## 🧪 Step 6: Verifying the MFA Login Flow (Primary and Fallbacks)
+To verify the policy triggers and all methods are operational for the test user:
 
-1.  Open a new private browser window and attempt to sign in to the Azure Portal (`https://portal.azure.com`) as `testusermfa@olamc.onmicrosoft.com`.
-2.  Enter the user password.
+### 6.1 Primary Method Test: Microsoft Authenticator Push
+1.  Open a private browser window and attempt to sign in to the Azure Portal (`https://portal.azure.com`) as `testusermfa@olamc.onmicrosoft.com`.
+2.  Enter the password.
 3.  The sign-in process halts and displays the **Approve sign-in request** challenge displaying the two-digit number.
 4.  The test user's Authenticator app on the **iPhone 12 Pro** receives the push notification. Entering the matching number and authenticating approves the session.
-5.  The login succeeds, redirecting the user to the Azure Portal home dashboard.
+
+### 6.2 Backup Method Test: SMS OTP Challenge
+1.  Open a private browser window and sign in as the test user.
+2.  At the MFA prompt, click **"Sign in another way"** or **"I can't use my Microsoft Authenticator app right now"**.
+3.  Select **Text +X XXXXXXX99** from the options.
+4.  The Entra ID sign-in screen displays the **SMS Verification Prompt** *(See `screenshots/sms_mfa_prompt.png`)*.
+5.  An SMS containing a 6-digit verification code is delivered to the user's registered phone.
+6.  Enter the 6-digit code in the browser and click **Verify**. The authentication succeeds and grants access.
+
+### 6.3 Backup Method Test: Email OTP Challenge
+1.  Open a private browser window and sign in as the test user.
+2.  At the MFA prompt, select **"Sign in another way"**.
+3.  Select **Email t*****@gmail.com** from the options.
+4.  The Entra ID sign-in screen displays the **Email Verification Prompt** *(See `screenshots/email_mfa_prompt.png`)*.
+5.  An email containing a 6-digit OTP code is sent to the user's registered fallback email address.
+6.  Enter the 6-digit code in the browser and click **Verify**. The authentication succeeds and grants access.
+

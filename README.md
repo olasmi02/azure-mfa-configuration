@@ -38,27 +38,37 @@ The repository is structured into the following detailed markdown reports:
 
 ## 🖼️ Configuration Highlights & Verification
 
-Below are key verification screenshots demonstrating the configuration and login flow:
+Below are key verification screenshots demonstrating the configuration, user onboarding, and login flow:
 
-### 1. Entra ID Authentication Methods
-The central policies page showing the tenant's permitted authentication methods, ensuring SMS is restricted and passwordless/push methods are prioritized.
+### 1. Entra ID Tenant Authentication Policies
+The central policies page showing the tenant's permitted authentication methods, ensuring Push notifications, SMS, Email OTP, TAP, and FIDO2 are enabled.
 
 ![Microsoft Entra ID Authentication Methods Policies](./screenshots/entra_auth_methods.png)
 
 ### 2. Conditional Access Policy Design
-A granular Conditional Access policy configured to prompt for MFA whenever a user attempts to access any cloud resource from external networks or with administrative roles.
+A granular Conditional Access policy configured to prompt for MFA whenever a user attempts to access any cloud resource.
 
 ![Conditional Access Policy UI](./screenshots/conditional_access_policy.png)
 
 ### 3. User Self-Service Security Registration
-The end-user configuration portal (`mysignins.microsoft.com`) verifying successful registration of secondary factors (Microsoft Authenticator App on iPhone 12 Pro).
+The end-user configuration portal (`mysignins.microsoft.com/security-info`) verifying successful registration of multiple factors simultaneously (Microsoft Authenticator on iPhone 12 Pro, Phone SMS backup, and Email OTP fallback).
 
-![End-User Security Info Dashboard](./screenshots/user_mfa_registration.png)
+![End-User Security Info Dashboard](./screenshots/user_security_info_all.png)
 
-### 4. Verification Prompt During Registration
+### 4. Verification Prompt During Onboarding
 The setup verification flow displaying the "Let's try it out" screen with the verification code (64) during Microsoft Authenticator onboarding.
 
 ![MFA Number Matching Onboarding Prompt](./screenshots/mfa_login_prompt.png)
+
+### 5. SMS MFA Login Challenge
+The Microsoft Entra ID login screen challenging the user for the 6-digit SMS OTP code.
+
+![SMS MFA Login Challenge](./screenshots/sms_mfa_prompt.png)
+
+### 6. Email MFA Login Challenge
+The Microsoft Entra ID login screen challenging the user for the 6-digit Email OTP code.
+
+![Email MFA Login Challenge](./screenshots/email_mfa_prompt.png)
 
 ---
 
