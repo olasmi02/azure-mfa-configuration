@@ -96,4 +96,12 @@ To verify the policy triggers and all methods are operational for the test user:
 4.  The Entra ID sign-in screen displays the **Email Verification Prompt** *(See `screenshots/email_mfa_prompt.png`)*.
 5.  An email containing a 6-digit OTP code is sent to the user's registered fallback email address.
 6.  Enter the 6-digit code in the browser and click **Verify**. The authentication succeeds and grants access.
-
+### 6.4 Backup/Recovery Code Testing & Security Setup
+1. Open a browser and navigate to the user's advanced security settings.
+2. Select **Generate a new code** in the Recovery Code card.
+3. The browser displays the 25-character recovery code in a redacted format for safety *(See `screenshots/recovery_code_generation.png`)*.
+4. Copy the code and store it securely using the checklist detailed in the [Authentication Methods Report](./auth_methods_documentation.md#54-recovery-code-generation--storage-checklist).
+5. Open a private browser window and sign in as the test user.
+6. At the MFA prompt, select **"Sign in another way"** > **"Use a recovery code"**.
+7. Enter the 25-character recovery code to bypass standard MFA challenges.
+8. Verify that the login succeeds. Immediately log back in to generate a new recovery code, as the code used is now invalidated.

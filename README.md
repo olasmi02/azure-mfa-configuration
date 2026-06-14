@@ -70,6 +70,11 @@ The Microsoft Entra ID login screen challenging the user for the 6-digit Email O
 
 ![Email MFA Login Challenge](./screenshots/email_mfa_prompt.png)
 
+### 7. Recovery Code Generation Screen
+The Microsoft Account advanced security screen displaying the generation of the 25-character recovery code, with characters redacted for security.
+
+![Recovery Code Generation](./screenshots/recovery_code_generation.png)
+
 ---
 
 ## 🛡️ Design Justification Summary

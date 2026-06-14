@@ -97,6 +97,23 @@ In an enterprise Microsoft Entra ID tenant (like `olamc.onmicrosoft.com`), self-
 *   **Configuration**: The admin sets a specific start time, duration (e.g., 1 hour), and specifies whether it is one-time use.
 *   **Usage**: The user signs in using the TAP, bypassing standard MFA. This allows them to securely access `mysignins.microsoft.com/security-info` to register their new phone or Authenticator app.
 
+### 5.4 Recovery Code Generation & Storage Checklist
+Below is the mandatory security checklist for generating, securing, and managing static recovery codes:
+
+#### 📋 Generation Steps
+- [ ] **Navigate to Security Settings**: Access your Microsoft Account Advanced Security settings portal.
+- [ ] **Generate Recovery Code**: Scroll to the "Recovery code" section and select **Generate a new code**. *(See `screenshots/recovery_code_generation.png`)*.
+- [ ] **Acknowledge Invalidation**: Confirm that generating a new code automatically invalidates any previously issued recovery codes.
+
+#### 🔒 Secure Storage Strategy
+- [ ] **No Cleartext Cloud Storage**: Never store the recovery code in cleartext files (e.g., `.txt`, `.docx`, `.xlsx`) in cloud storage (OneDrive, Google Drive) or email drafts.
+- [ ] **Encrypted Password Vault**: Store a digital copy inside an encrypted password manager (e.g., Bitwarden, 1Password) protected by Multi-Factor Authentication (MFA) on the master account.
+- [ ] **Offline Physical Storage**: Print or write the 25-character code on paper and store it in a physical fireproof/waterproof home safe or safety deposit box.
+
+#### 🔄 Lifecycle & Recovery Management
+- [ ] **Single-Use Policy**: Treat the recovery code as a one-time credential. If used to recover the account, immediately log back in and generate a new code.
+- [ ] **Annual Rotation**: Review and rotate the recovery code annually to ensure key integrity.
+
 ---
 
 ## 🎯 Architectural Justification
